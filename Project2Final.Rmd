@@ -643,7 +643,7 @@ text(x = 0.6, y = 0.4, labels = paste("AUC =", round(auroc, 4)))
 We can only use continuous predictors for QDA so we will use the 3 that were picked from the lasso feature selection earlier
 
 1. age
-2. education_num
+2. fnlwgt
 3. capital_gain
 
 Looking at the covariance variance matrices, we can see that they are not the same so we can not use LDA so we will use QDA 
@@ -673,7 +673,7 @@ qda.fit<-train(income.word~education_num + age + capital_gain,
 
 predictions <- predict(qda.fit, validate, type = "prob")[,"more"]
 
-threshold=0.76
+threshold=0.022
 qda.preds<-factor(ifelse(predictions>threshold,"more","less"),levels=c("less","more"))
 confusionMatrix(data = qda.preds, reference = validate$income.word)
 
@@ -686,10 +686,10 @@ qda.roc<-roc(response=validate$income.word,predictor=qda.predprobs$more,levels=c
 auc(qda.roc)
 
 ```
-Specificity = 0.2972
-Sensitivity = 0.9527
-PPV = 0.8142
-NPV = 0.6603
+Specificity = 0.6264          
+Sensitivity = 0.8602 
+PPV = 0.8816
+NPV = 0.5808
 Prevalence = 0.7638
 AUROC = 0.8129
 
